@@ -1,0 +1,58 @@
+//Finding Happy Number
+
+import java.util.*;
+class abc{
+	public static void main(String[] args) {
+
+		Scanner sc =new Scanner(System.in);
+		System.out.print("Enter Number=");
+		int n=sc.nextInt();
+		int arr[]=new int[1000];
+		//
+		int sum=0;
+		int happy=0;
+		int whileloop_count=0;
+		while(n>=1)
+		{
+			int a=n%10;
+			sum=sum+(a*a);
+			n=n/10;
+			if(sum==1)
+			{
+				happy++;
+				break;
+			}
+			
+			else if(n==0)
+			{
+				arr[whileloop_count]=sum;
+				whileloop_count++;
+
+				for(int i=1;i<whileloop_count;i++)
+				{
+					if(sum==arr[i-1])
+					{
+						happy--;
+						break;
+					}
+				}
+				n=sum;
+				sum=0;
+
+			}
+			else if(happy==-1)
+				{
+					break;
+				}
+
+		}
+		if(happy==1)
+		{
+			System.out.print("Happy Number");
+		}
+		else if(happy==-1)
+		{
+			System.out.print("Not Happy Number");
+		}
+	}
+}
