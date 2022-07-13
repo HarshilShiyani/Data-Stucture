@@ -1,3 +1,5 @@
+//WAP to find the sum of 1 + (1+2) + (1+2+3) + (1+2+3+4)+ …+(1+2+3+4+….+n).
+
 import java.util.*;
 class Extra_Lab_3{
 
