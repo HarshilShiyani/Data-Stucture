@@ -16,7 +16,7 @@ class P1
         //////
         for(int i=0;i<arr.length;i++){
             //System.out.println(arr[i]);
-            int min=MIN_VALUE;
+            int min=999999989;
             int z=i;
             for(int j=i;j<arr.length;j++){
                 if(arr[j]<min){
