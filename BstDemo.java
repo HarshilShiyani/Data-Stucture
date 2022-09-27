@@ -1,101 +1,113 @@
-class DoubleLink {
+import java.util.Stack;
 
-	class Node {
+class Bst {
 
-		int data;
-		Node next;
-		Node prev;
+    Node root = null;
 
-		Node(int data) {
-			this.data = data;
-			this.next = null;
-			this.prev = null;
-		}
-	}
+    class Node {
+        Node left;
+        Node right;
+        int data;
 
-	public Node head = null;
-	public Node last = null;
+        Node(int data) {
+            this.data = data;
+            this.left = null;
+            this.right = null;
 
-	void insert_in_doubly(int data) {
+        }
+    }
 
-		Node newnode = new Node(data);
-		if (head == null) {
-			head = newnode;
-			last = newnode;
-		} else {
-			last.next = newnode;
-			newnode.prev = last;
-			last = newnode;
-		}
-	}
+    /////
+    void inorder() {
+        inorderRec(root);
+    }
 
-	void inser_first(int data) {
-		Node newnode = new Node(data);
-		if (head == null) {
-			head = newnode;
-			last = newnode;
-		} else {
-			newnode.next = head;
-			head = newnode;
-		}
-	}
+    void inorderRec(Node root) {
+        if (root != null) {
+            inorderRec(root.left);
+            System.out.print(root.data + " -> ");
+            inorderRec(root.right);
+        }
+    }
 
-	void displaynode() {
-		Node current = head;
-		if (head == null) {
-			System.out.print("Empty");
+    ///////
+    void preorder() {
+        preorderRec(root);
+    }
 
-		} else {
-			while (current != null) {
-				System.out.print(current.data + " ");
-				current = current.next;
-			}
-		}
-	}
+    void preorderRec(Node root) {
+        if (root != null) {
+            System.out.print(root.data + " -> ");
+            preorderRec(root.left);
 
-	void deleteNode(int value) {
+            preorderRec(root.right);
+        }
+    }
 
-		Node temp = head;
-		if (temp == null) {
-			System.out.println("Empty that nor delete");
-		} else if (value == temp.data) {
+    ///////
+    void postorder() {
+        postorderRec(root);
+    }
 
-			temp = temp.next;
-			temp.prev = null;
-			displaynode();
+    void postorderRec(Node root) {
 
-		} else if (value == temp.next.data) {
-			temp.prev.next=temp.next;
-			temp.next.prev = temp.prev;
-			displaynode();
-		}
+        if (root != null) {
+            postorderRec(root.left);
+            postorderRec(root.right);
+            System.out.print(root.data + " -> ");
+        }
+    }
 
-		else {
-			while (temp.data != value && temp != null) {
-				temp = temp.next;
-			}
-			temp.prev.next = temp.next;
-			temp.next = temp.prev.next;
-			temp = temp.next;
-			displaynode();
-		}
+    /////
+    void insert(int d) {
+        Node newnode = new Node(d);
+        if (root == null) {
+            root = newnode;
+        } else {
+            Node temp = root;
 
-	}
+            while (root.left != null || root.right != null) {
+                if (newnode.data >= temp.data && temp.right != null) {
+                    temp = temp.right;
+                } else if (newnode.data < temp.data && temp.left != null) {
+                    temp = temp.left;
+                } else {
+                    break;
+                }
+            }
+            if (newnode.data >= temp.data) {
+
+                temp.right = newnode;
+            } else {
+
+                temp.left = newnode;
+            }
+
+        }
+    }
+
+    void delete() {
+
+    }
 }
 
-class DoubleLinkDemo {
-	public static void main(String[] args) {
+class BstDemo {
 
-		DoubleLink obj = new DoubleLink();
-		obj.insert_in_doubly(10);
-		obj.insert_in_doubly(20);
-		obj.insert_in_doubly(30);
-		obj.insert_in_doubly(40);
-		obj.insert_in_doubly(80);
-		obj.inser_first(1);
+    public static void main(String[] args) {
 
-		obj.displaynode();
-		System.out.println("");
-		obj.deleteNode(20);
-	}
+        Bst obj = new Bst();
+        obj.insert(10);
+        obj.insert(0);
+        obj.insert(20);
+        obj.insert(50);
+        obj.insert(1);
+
+        obj.inorder();
+        obj.inorder();
+        System.out.println("");
+        obj.preorder();
+        System.out.println("");
+        obj.postorder();
+
+    }
 }
