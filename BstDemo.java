@@ -1,112 +1,101 @@
-import java.util.Stack;
+class DoubleLink {
 
-class Bst {
+	class Node {
 
-    Node root = null;
+		int data;
+		Node next;
+		Node prev;
 
-    class Node {
-        Node left;
-        Node right;
-        int data;
+		Node(int data) {
+			this.data = data;
+			this.next = null;
+			this.prev = null;
+		}
+	}
 
-        Node(int data) {
-            this.data = data;
-            this.left = null;
-            this.right = null;
+	public Node head = null;
+	public Node last = null;
 
-        }
-    }
+	void insert_in_doubly(int data) {
 
-    /////
-    void inorder() {
-        inorderRec(root);
-    }
+		Node newnode = new Node(data);
+		if (head == null) {
+			head = newnode;
+			last = newnode;
+		} else {
+			last.next = newnode;
+			newnode.prev = last;
+			last = newnode;
+		}
+	}
 
-    void inorderRec(Node root) {
-        if (root != null) {
-            inorderRec(root.left);
-            System.out.print(root.data + " -> ");
-            inorderRec(root.right);
-        }
-    }
+	void inser_first(int data) {
+		Node newnode = new Node(data);
+		if (head == null) {
+			head = newnode;
+			last = newnode;
+		} else {
+			newnode.next = head;
+			head = newnode;
+		}
+	}
 
-    ///////
-    void preorder() {
-        preorderRec(root);
-    }
+	void displaynode() {
+		Node current = head;
+		if (head == null) {
+			System.out.print("Empty");
 
-    void preorderRec(Node root) {
-        if (root != null) {
-            System.out.print(root.data + " -> ");
-            preorderRec(root.left);
+		} else {
+			while (current != null) {
+				System.out.print(current.data + " ");
+				current = current.next;
+			}
+		}
+	}
 
-            preorderRec(root.right);
-        }
-    }
+	void deleteNode(int value) {
 
-    ///////
-    void postorder() {
-        postorderRec(root);
-    }
+		Node temp = head;
+		if (temp == null) {
+			System.out.println("Empty that nor delete");
+		} else if (value == temp.data) {
 
-    void postorderRec(Node root) {
+			temp = temp.next;
+			temp.prev = null;
+			displaynode();
 
-        if (root != null) {
-            postorderRec(root.left);
-            postorderRec(root.right);
-            System.out.print(root.data + " -> ");
-        }
-    }
+		} else if (value == temp.next.data) {
+			temp.prev.next=temp.next;
+			temp.next.prev = temp.prev;
+			displaynode();
+		}
 
-    /////
-    void insert(int d) {
-        Node newnode = new Node(d);
-        if (root == null) {
-            root = newnode;
-        } else {
-            Node temp = root;
+		else {
+			while (temp.data != value && temp != null) {
+				temp = temp.next;
+			}
+			temp.prev.next = temp.next;
+			temp.next = temp.prev.next;
+			temp = temp.next;
+			displaynode();
+		}
 
-            while (root.left != null || root.right != null) {
-                if (newnode.data >= temp.data && temp.right != null) {
-                    temp = temp.right;
-                } else if (newnode.data < temp.data && temp.left != null) {
-                    temp = temp.left;
-                } else {
-                    break;
-                }
-            }
-            if (newnode.data >= temp.data) {
-
-                temp.right = newnode;
-            } else {
-
-                temp.left = newnode;
-            }
-
-        }
-    }
-    void delete(){
-        
-    }
+	}
 }
 
-class BstDemo {
+class DoubleLinkDemo {
+	public static void main(String[] args) {
 
-    public static void main(String[] args) {
+		DoubleLink obj = new DoubleLink();
+		obj.insert_in_doubly(10);
+		obj.insert_in_doubly(20);
+		obj.insert_in_doubly(30);
+		obj.insert_in_doubly(40);
+		obj.insert_in_doubly(80);
+		obj.inser_first(1);
 
-        Bst obj = new Bst();
-        obj.insert(10);
-        obj.insert(0);
-        obj.insert(20);
-        obj.insert(50);
-        obj.insert(1);
-
-        obj.inorder();
-        obj.inorder();
-        System.out.println("");
-        obj.preorder();
-        System.out.println("");
-        obj.postorder();
-
-    }
+		obj.displaynode();
+		System.out.println("");
+		obj.deleteNode(20);
+	}
 }
